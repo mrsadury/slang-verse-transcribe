@@ -2,7 +2,7 @@
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from '@/contexts/TranslationContext';
-import { Brain, Zap } from 'lucide-react';
+import { Brain, Zap, Crown, Gift } from 'lucide-react';
 
 export default function AIModelSelector() {
   const { settings, updateSettings } = useTranslation();
@@ -17,14 +17,20 @@ export default function AIModelSelector() {
     {
       value: 'gpt-4o-mini',
       label: 'GPT-4o-mini',
-      description: 'OpenAI Model',
-      icon: Brain
+      description: 'Premium Model',
+      icon: Brain,
+      badge: Crown,
+      badgeColor: 'text-yellow-400',
+      tier: 'PREMIUM'
     },
     {
       value: 'deepseek-v3',
       label: 'DeepSeek v3',
-      description: 'DeepSeek Model',
-      icon: Zap
+      description: 'Free Model',
+      icon: Zap,
+      badge: Gift,
+      badgeColor: 'text-green-400',
+      tier: 'FREE'
     }
   ];
 
@@ -39,13 +45,17 @@ export default function AIModelSelector() {
         </div>
         
         <Select value={settings.aiModel} onValueChange={handleModelChange}>
-          <SelectTrigger className="w-48 bg-white/5 border-white/20 text-white">
+          <SelectTrigger className="w-56 bg-white/5 border-white/20 text-white">
             <SelectValue>
               <div className="flex items-center space-x-2">
                 {selectedModel && (
                   <>
                     <selectedModel.icon className="h-4 w-4 text-neon-cyan" />
                     <span>{selectedModel.label}</span>
+                    <selectedModel.badge className={`h-3 w-3 ${selectedModel.badgeColor}`} />
+                    <span className={`text-xs font-bold ${selectedModel.badgeColor}`}>
+                      {selectedModel.tier}
+                    </span>
                   </>
                 )}
               </div>
@@ -60,8 +70,14 @@ export default function AIModelSelector() {
               >
                 <div className="flex items-center space-x-3">
                   <model.icon className="h-4 w-4 text-neon-cyan" />
-                  <div>
-                    <div className="font-medium">{model.label}</div>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-medium">{model.label}</span>
+                      <model.badge className={`h-3 w-3 ${model.badgeColor}`} />
+                      <span className={`text-xs font-bold ${model.badgeColor}`}>
+                        {model.tier}
+                      </span>
+                    </div>
                     <div className="text-xs text-gray-400">{model.description}</div>
                   </div>
                 </div>
