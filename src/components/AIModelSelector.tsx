@@ -1,44 +1,74 @@
 
 import { Card } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { Brain, Zap } from 'lucide-react';
 
 export default function AIModelSelector() {
   const { settings, updateSettings } = useTranslation();
 
-  const handleModelChange = (checked: boolean) => {
+  const handleModelChange = (value: string) => {
     updateSettings({
-      aiModel: checked ? 'deepseek-v3' : 'gpt-4o-mini'
+      aiModel: value as 'gpt-4o-mini' | 'deepseek-v3'
     });
   };
+
+  const modelOptions = [
+    {
+      value: 'gpt-4o-mini',
+      label: 'GPT-4o-mini',
+      description: 'OpenAI Model',
+      icon: Brain
+    },
+    {
+      value: 'deepseek-v3',
+      label: 'DeepSeek v3',
+      description: 'DeepSeek Model',
+      icon: Zap
+    }
+  ];
+
+  const selectedModel = modelOptions.find(model => model.value === settings.aiModel);
 
   return (
     <Card className="glassmorphism p-4 border-white/10 w-fit">
       <div className="flex items-center space-x-4">
         <div className="flex items-center space-x-2">
           <Brain className="h-5 w-5 text-neon-purple" />
-          <span className={`text-sm font-medium ${settings.aiModel === 'gpt-4o-mini' ? 'text-neon-cyan' : 'text-gray-400'}`}>
-            GPT-4o-mini
-          </span>
+          <span className="text-sm font-medium text-white">AI Model:</span>
         </div>
         
-        <Switch
-          checked={settings.aiModel === 'deepseek-v3'}
-          onCheckedChange={handleModelChange}
-          className="data-[state=checked]:bg-neon-purple"
-        />
-        
-        <div className="flex items-center space-x-2">
-          <span className={`text-sm font-medium ${settings.aiModel === 'deepseek-v3' ? 'text-neon-cyan' : 'text-gray-400'}`}>
-            DeepSeek v3
-          </span>
-          <Zap className="h-5 w-5 text-neon-cyan" />
-        </div>
-      </div>
-      
-      <div className="mt-2 text-xs text-gray-400 text-center">
-        {settings.aiModel === 'gpt-4o-mini' ? 'OpenAI Model' : 'DeepSeek Model'}
+        <Select value={settings.aiModel} onValueChange={handleModelChange}>
+          <SelectTrigger className="w-48 bg-white/5 border-white/20 text-white">
+            <SelectValue>
+              <div className="flex items-center space-x-2">
+                {selectedModel && (
+                  <>
+                    <selectedModel.icon className="h-4 w-4 text-neon-cyan" />
+                    <span>{selectedModel.label}</span>
+                  </>
+                )}
+              </div>
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent className="bg-gray-900 border-white/20">
+            {modelOptions.map((model) => (
+              <SelectItem 
+                key={model.value} 
+                value={model.value}
+                className="text-white hover:bg-white/10 focus:bg-white/10"
+              >
+                <div className="flex items-center space-x-3">
+                  <model.icon className="h-4 w-4 text-neon-cyan" />
+                  <div>
+                    <div className="font-medium">{model.label}</div>
+                    <div className="text-xs text-gray-400">{model.description}</div>
+                  </div>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </Card>
   );
