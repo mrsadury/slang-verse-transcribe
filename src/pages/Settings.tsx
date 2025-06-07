@@ -1,11 +1,10 @@
-
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useToast } from '@/hooks/use-toast';
-import { Settings as SettingsIcon, Globe, Volume2, Smile, HelpCircle, Trash2 } from 'lucide-react';
+import { Settings as SettingsIcon, Globe, Volume2, Smile, HelpCircle, Trash2, Sparkles } from 'lucide-react';
 
 export default function Settings() {
   const { settings, updateSettings, history, clearHistory } = useTranslation();
