@@ -1,12 +1,10 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-export type AIModel = 'gpt-4o-mini' | 'deepseek-v3';
 export type TranslationDirection = 'normal-to-genz' | 'genz-to-normal';
 export type Language = 'en' | 'bn' | 'hi' | 'es';
 
 interface TranslationSettings {
-  aiModel: AIModel;
   language: Language;
   showEmojis: boolean;
   showTooltips: boolean;
@@ -18,7 +16,6 @@ interface TranslationHistory {
   input: string;
   output: string;
   direction: TranslationDirection;
-  model: AIModel;
   timestamp: Date;
 }
 
@@ -31,7 +28,6 @@ interface TranslationContextType {
 }
 
 const defaultSettings: TranslationSettings = {
-  aiModel: 'gpt-4o-mini',
   language: 'en',
   showEmojis: true,
   showTooltips: true,

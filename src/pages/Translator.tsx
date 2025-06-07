@@ -4,10 +4,8 @@ import { ArrowUpDown, Copy, Volume2, RotateCcw, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
 import { useTranslation, TranslationDirection } from '@/contexts/TranslationContext';
 import { useToast } from '@/hooks/use-toast';
-import AIModelSelector from '@/components/AIModelSelector';
 import TranslationAPI from '@/utils/TranslationAPI';
 
 export default function Translator() {
@@ -33,7 +31,6 @@ export default function Translator() {
       const result = await TranslationAPI.translate(
         inputText,
         direction,
-        settings.aiModel,
         settings.language
       );
       
@@ -42,7 +39,6 @@ export default function Translator() {
         input: inputText,
         output: result,
         direction,
-        model: settings.aiModel,
       });
 
       toast({
@@ -53,7 +49,7 @@ export default function Translator() {
       console.error('Translation error:', error);
       toast({
         title: "Translation failed",
-        description: "Please try again or switch AI models",
+        description: "Please try again in a moment",
         variant: "destructive",
       });
     } finally {
@@ -116,11 +112,9 @@ export default function Translator() {
           <p className="text-gray-300 text-lg">
             Transform your language with AI-powered translations
           </p>
-        </div>
-
-        {/* AI Model Selector */}
-        <div className="flex justify-center">
-          <AIModelSelector />
+          <p className="text-sm text-neon-cyan">
+            Powered by DeepSeek v3 AI
+          </p>
         </div>
 
         {/* Direction Toggle */}
@@ -245,7 +239,7 @@ export default function Translator() {
                     {outputText.length} characters
                   </span>
                   <span className="text-sm text-neon-cyan">
-                    Powered by {settings.aiModel === 'gpt-4o-mini' ? 'GPT-4o-mini' : 'DeepSeek v3'}
+                    Powered by DeepSeek v3
                   </span>
                 </div>
               )}
