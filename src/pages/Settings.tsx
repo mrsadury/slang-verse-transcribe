@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useTranslation } from '@/contexts/TranslationContext';
 import { useToast } from '@/hooks/use-toast';
-import { Settings as SettingsIcon, Brain, Globe, Volume2, Smile, HelpCircle, Trash2 } from 'lucide-react';
+import { Settings as SettingsIcon, Globe, Volume2, Smile, HelpCircle, Trash2 } from 'lucide-react';
 
 export default function Settings() {
   const { settings, updateSettings, history, clearHistory } = useTranslation();
@@ -43,47 +43,6 @@ export default function Settings() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* AI Model Settings */}
-          <Card className="glassmorphism p-6 border-white/10">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <Brain className="h-5 w-5 text-neon-purple" />
-                <h3 className="text-lg font-semibold text-white">AI Model</h3>
-              </div>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm text-gray-300 mb-2 block">
-                    Choose AI Model
-                  </label>
-                  <div className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
-                    <div className="flex items-center space-x-2">
-                      <span className={`text-sm ${settings.aiModel === 'gpt-4o-mini' ? 'text-neon-cyan' : 'text-gray-400'}`}>
-                        GPT-4o-mini
-                      </span>
-                    </div>
-                    <Switch
-                      checked={settings.aiModel === 'deepseek-v3'}
-                      onCheckedChange={(checked) => 
-                        updateSettings({ aiModel: checked ? 'deepseek-v3' : 'gpt-4o-mini' })
-                      }
-                    />
-                    <div className="flex items-center space-x-2">
-                      <span className={`text-sm ${settings.aiModel === 'deepseek-v3' ? 'text-neon-cyan' : 'text-gray-400'}`}>
-                        DeepSeek v3
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-xs text-gray-400 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
-                  <p><strong>GPT-4o-mini:</strong> OpenAI's efficient model, great for accurate translations</p>
-                  <p className="mt-1"><strong>DeepSeek v3:</strong> Advanced reasoning model, excellent for context understanding</p>
-                </div>
-              </div>
-            </div>
-          </Card>
-
           {/* Language Settings */}
           <Card className="glassmorphism p-6 border-white/10">
             <div className="space-y-4">
@@ -177,6 +136,25 @@ export default function Settings() {
               </div>
             </div>
           </Card>
+
+          {/* AI Model Info */}
+          <Card className="glassmorphism p-6 border-white/10">
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Sparkles className="h-5 w-5 text-neon-purple" />
+                <h3 className="text-lg font-semibold text-white">AI Model</h3>
+              </div>
+              
+              <div className="text-center p-4 bg-gradient-to-r from-neon-purple/20 to-neon-cyan/20 rounded-lg border border-neon-purple/30">
+                <div className="text-2xl font-bold text-neon-cyan mb-2">DeepSeek v3</div>
+                <p className="text-sm text-gray-300">Advanced AI model for accurate translations</p>
+              </div>
+
+              <div className="text-xs text-gray-400 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+                <p><strong>DeepSeek v3:</strong> Advanced reasoning model, excellent for context understanding and creative translations.</p>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* History Section */}
@@ -212,7 +190,7 @@ export default function Settings() {
                         {item.direction === 'normal-to-genz' ? 'Normal → Gen Z' : 'Gen Z → Normal'}
                       </span>
                       <span className="text-gray-400">
-                        {item.model === 'gpt-4o-mini' ? 'GPT-4o-mini' : 'DeepSeek v3'}
+                        DeepSeek v3
                       </span>
                     </div>
                     <p className="text-white text-sm truncate">{item.input}</p>
